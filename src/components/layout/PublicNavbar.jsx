@@ -36,7 +36,10 @@ export default function PublicNavbar() {
         </nav>
 
         <div className="public-header-actions" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <button className="btn primary public-desktop-auth" onClick={() => navigate('/dashboard')}>Open Dashboard</button>
+          <div className="public-desktop-auth-group">
+            <button className="btn ghost" onClick={() => navigate('/login')}>Login</button>
+            <button className="btn primary" onClick={() => navigate('/register')}>Get Started</button>
+          </div>
           <button className="btn ghost public-menu-button" onClick={() => setOpen(!open)} aria-label={open ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={open}>
             {open ? <X size={18} /> : <Menu size={18} />}
           </button>
@@ -55,7 +58,10 @@ export default function PublicNavbar() {
                 {navItems.map((item) => (
                   <NavLink key={item.path} to={item.path} onClick={() => setOpen(false)} style={{ padding: '10px 12px', borderRadius: 10, background: 'var(--surface-alt)', fontWeight: 600 }}>{item.label}</NavLink>
                 ))}
-                <button className="btn primary" onClick={() => { setOpen(false); navigate('/dashboard'); }}>Open Dashboard</button>
+                <div className="public-mobile-auth">
+                  <button className="btn ghost" onClick={() => { setOpen(false); navigate('/login'); }}>Login</button>
+                  <button className="btn primary" onClick={() => { setOpen(false); navigate('/register'); }}>Get Started</button>
+                </div>
               </div>
             </motion.div>
           </motion.div>

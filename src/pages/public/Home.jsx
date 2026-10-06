@@ -33,7 +33,7 @@ export default function Home() {
               <h1 style={{ fontSize: 'clamp(2.7rem, 5vw, 5rem)', marginTop: 18 }}>Sit Better. Move Better. Live Better.</h1>
               <p style={{ fontSize: 20, maxWidth: 560, marginBottom: 22 }}>AI-powered posture monitoring that helps you build healthier sitting habits.</p>
               <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-                <button className="btn primary" onClick={() => navigate('/dashboard')}>Open Dashboard <ArrowRight size={18} /></button>
+                <button className="btn primary" onClick={() => navigate('/register')}>Get Started <ArrowRight size={18} /></button>
                 <button className="btn ghost" onClick={() => navigate('/features')}>Explore Features</button>
               </div>
               <div style={{ marginTop: 22, display: 'flex', gap: 24, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -111,7 +111,7 @@ export default function Home() {
             <p style={{ fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 10 }}>Privacy</p>
             <h2 style={{ marginBottom: 18 }}>Your privacy comes first. Yoga Yen is designed to analyze posture without unnecessarily storing webcam images or videos.</h2>
             <p style={{ maxWidth: 760, margin: '0 auto 28px', fontSize: 18 }}>Live monitoring sends normalized landmark coordinates in connected mode. A photo is sent only when you choose to analyze it with a connected backend.</p>
-            <button className="btn primary" onClick={() => navigate('/dashboard')}>Explore the dashboard</button>
+            <button className="btn primary" onClick={() => navigate('/register')}>Create a preview profile</button>
           </div>
         </div>
       </section>

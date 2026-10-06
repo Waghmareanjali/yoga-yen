@@ -10,6 +10,8 @@ const ImageAnalysis = lazy(() => import('../pages/public/ImageAnalysis'));
 const Privacy = lazy(() => import('../pages/public/Privacy'));
 const Contact = lazy(() => import('../pages/public/Contact'));
 const Terms = lazy(() => import('../pages/public/Terms'));
+const Login = lazy(() => import('../pages/auth/Login'));
+const Register = lazy(() => import('../pages/auth/Register'));
 const AppLayout = lazy(() => import('../pages/app/AppLayout'));
 const Dashboard = lazy(() => import('../pages/app/Dashboard'));
 const LiveMonitor = lazy(() => import('../pages/app/LiveMonitor'));
@@ -46,8 +48,8 @@ export default function AppRoutes() {
           <Route path="terms" element={<Terms />} />
         </Route>
 
-        <Route path="/login" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/register" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<Navigate to="/dashboard" replace />} />
         <Route path="/reset-password" element={<Navigate to="/dashboard" replace />} />
 

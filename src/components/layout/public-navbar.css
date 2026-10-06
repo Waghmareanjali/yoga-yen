@@ -1,4 +1,5 @@
 .public-menu-button { display: none; align-items: center; justify-content: center; padding: 10px 12px; }
+.public-desktop-auth-group { display: flex; align-items: center; gap: 8px; }
 .public-mobile-auth { display: flex; gap: 10px; margin-top: 8px; }
 .public-mobile-auth > * { flex: 1; }
 @media (max-width: 1020px) {
@@ -8,5 +9,5 @@
 @media (max-width: 600px) {
   .public-header-inner { min-height: 66px !important; }
   .public-header-actions { gap: 8px !important; }
-  .public-desktop-auth { display: none; }
+  .public-desktop-auth-group { display: none; }
 }

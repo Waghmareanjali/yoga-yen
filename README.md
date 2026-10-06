@@ -50,10 +50,11 @@ Environment values prefixed with `VITE_` are bundled into browser code and are p
 
 ## Current development mode
 
-- No login, registration, or authentication is required; protected UI pages open directly.
+- Login and registration screens are available for design testing. Login works with blank or arbitrary fields; registration fields are optional. Both create only an in-memory preview session and do not verify credentials or create an account.
+- Dashboard and app routes remain directly accessible without login.
 - Preview measurements and recommendations are illustrative and are not saved to a database.
 - Camera-based pose landmarks run locally in the browser. Image-analysis demo mode does not send uploaded images to a server.
-- To begin backend integration later, set `VITE_UI_ONLY_MODE=false` and configure the API/mock flags deliberately, then implement authentication separately.
+- To begin backend integration later, set `VITE_UI_ONLY_MODE=false` and configure the API/mock flags deliberately, then replace the dummy sign-in and registration with real authentication.
 
 ## Run locally
 
