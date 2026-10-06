@@ -22,6 +22,8 @@
 .app-sidebar .sidebar-link:hover, .app-sidebar .sidebar-link.active-sidebar-link { background: var(--secondary-light); color: var(--primary-dark); }
 .app-sidebar-home { min-height: 41px; display: flex; align-items: center; gap: 11px; margin-top: auto; padding: 9px 10px; border: 0; border-radius: 10px; background: transparent; color: var(--text-secondary); text-align: left; font-size: 12px; font-weight: 700; cursor: pointer; }
 .app-sidebar-home:hover { background: var(--surface-alt); color: var(--primary); }
+.app-sidebar-signout { min-height: 41px; display: flex; align-items: center; gap: 11px; padding: 9px 10px; border: 0; border-radius: 10px; background: transparent; color: var(--danger); text-align: left; font-size: 12px; font-weight: 700; cursor: pointer; }
+.app-sidebar-signout:hover { background: rgba(192,57,43,.08); }
 .app-sidebar-close { margin-left: auto; display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 10px; background: var(--surface-alt); color: var(--text-primary); }
 .app-main-column { min-width: 0; flex: 1; }
 .app-topbar { position: sticky; top: 0; z-index: 20; min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 22px; border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(14px); }

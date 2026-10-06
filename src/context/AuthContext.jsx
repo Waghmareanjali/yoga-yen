@@ -21,6 +21,7 @@ export function AuthProvider({ children }) {
     setUser: (update) => setUser((current) => typeof update === 'function' ? update(current) : update),
     login: async (details = {}) => enterPreview(details),
     register: async (details = {}) => ({ ...enterPreview(details), authenticated: true }),
+    logout: () => setUser(mockUser),
     isAuthenticated: true,
     loading: false,
   }), [user]);
