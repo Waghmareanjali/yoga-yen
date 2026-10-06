@@ -37,16 +37,14 @@ export default function Profile() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [demo, setDemo] = useState(apiConfig.useMockApi);
 
   useEffect(() => {
     let active = true;
     profileApi.getProfile()
-      .then(({ user: profile, demo: isDemo }) => {
+      .then(({ user: profile }) => {
         if (!active) return;
         const nextForm = mapProfile({ ...profile, ...authUser });
         setForm(nextForm);
-        setDemo(isDemo);
       })
       .catch((requestError) => {
         if (active) setError(requestError?.message || 'Unable to load your profile.');
@@ -81,8 +79,7 @@ export default function Profile() {
       });
       setForm(mapProfile(savedProfile));
       setUser((current) => ({ ...current, ...savedProfile, name: savedProfile.full_name || savedProfile.name }));
-      setDemo(isDemo);
-      setSuccess(isDemo ? 'Profile saved in this browser session (Demo Data).' : 'Your profile has been updated.');
+      setSuccess(isDemo ? 'Profile saved in this browser session only (UI preview).' : 'Your profile has been updated.');
     } catch (requestError) {
       setError(requestError?.message || 'Unable to save your profile.');
     } finally {
@@ -96,12 +93,12 @@ export default function Profile() {
     <div className="profile-page">
       <div className="page-header">
         <div><h1>Profile</h1><p>Manage the information used to personalize your wellness experience.</p></div>
-        {demo && <span className="badge info">Demo Data</span>}
+        {apiConfig.uiOnlyMode && <span className="badge info">UI Preview</span>}
       </div>
       <section className="card profile-card">
         <div className="profile-card-heading">
           <div className="profile-avatar">{initials || <UserRound size={22} />}</div>
-          <div><h2>Personal information</h2><p>Your information stays with your account settings.</p></div>
+          <div><h2>Personal information</h2><p>Preview profile data is stored only in this browser.</p></div>
           <BadgeCheck size={21} className="profile-heading-icon" />
         </div>
         {error && <AuthAlert>{error}</AuthAlert>}

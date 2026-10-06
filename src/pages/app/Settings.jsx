@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { BellRing, Camera, Contrast, LogOut, Mic2, Save, ShieldCheck, TimerReset } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { BellRing, Camera, Contrast, Mic2, Save, ShieldCheck, TimerReset } from 'lucide-react';
 import { settingsApi } from '../../api/settingsApi';
-import { useAuth } from '../../context/AuthContext';
+import { apiConfig } from '../../api/client';
 import { useSettingsStore } from '../../store/settingsStore';
 import AuthAlert from '../../components/auth/AuthAlert';
 import './settings.css';
@@ -38,8 +37,6 @@ const settingGroups = [
 ];
 
 export default function Settings() {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
   const theme = useSettingsStore((state) => state.theme);
   const setTheme = useSettingsStore((state) => state.setTheme);
   const [settings, setSettings] = useState(defaults);
@@ -47,15 +44,13 @@ export default function Settings() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
-  const [demo, setDemo] = useState(false);
 
   useEffect(() => {
     let active = true;
     settingsApi.getSettings()
-      .then(({ settings: saved, demo: isDemo }) => {
+      .then(({ settings: saved }) => {
         if (!active) return;
         setSettings((current) => ({ ...current, ...saved }));
-        setDemo(isDemo);
       })
       .catch((requestError) => {
         if (active) setError(requestError?.message || 'Unable to load settings.');
@@ -79,8 +74,7 @@ export default function Settings() {
     try {
       const result = await settingsApi.updateSettings(settings);
       setSettings((current) => ({ ...current, ...result.settings }));
-      setDemo(result.demo);
-      setNotice(result.demo ? 'Settings saved for this browser session (Demo Data).' : 'Your settings have been updated.');
+      setNotice(result.demo ? 'Settings saved for this browser session only (UI preview).' : 'Your settings have been updated.');
       localStorage.setItem('yoga-yen-reduced-motion', String(Boolean(settings.reducedMotion)));
     } catch (requestError) {
       setError(requestError?.message || 'Unable to save your settings.');
@@ -89,16 +83,11 @@ export default function Settings() {
     }
   };
 
-  const handleLogout = async () => {
-    await logout();
-    navigate('/login', { replace: true });
-  };
-
   return (
     <div className="settings-page">
       <div className="page-header">
         <div><h1>Settings</h1><p>Make Yoga Yen work comfortably for you.</p></div>
-        {demo && <span className="badge info">Demo Data</span>}
+        {apiConfig.uiOnlyMode && <span className="badge info">UI Preview</span>}
       </div>
       {error && <AuthAlert>{error}</AuthAlert>}
       {notice && <AuthAlert type="success">{notice}</AuthAlert>}
@@ -167,10 +156,7 @@ export default function Settings() {
               </label>
             </section>
 
-            <section className="card settings-section settings-account">
-              <div><h2>Account</h2><p>End your current signed-in session on this device.</p></div>
-              <button className="btn ghost" onClick={handleLogout}><LogOut size={16} /> Log out</button>
-            </section>
+            {apiConfig.uiOnlyMode && <section className="card settings-section"><div><h2>UI-only preview</h2><p>Authentication and database connections are disabled. Settings and profile edits are temporary preview data in this browser.</p></div></section>}
           </>
         )}
       </div>

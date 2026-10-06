@@ -1,6 +1,6 @@
 # Yoga Yen
 
-Yoga Yen is a responsive React + Vite application for posture awareness, movement breaks, and everyday wellness habits. It supports a clearly labeled demo mode and can connect to a FastAPI backend. Posture information is a wellness indicator, not a medical diagnosis.
+Yoga Yen is a responsive React + Vite UI prototype for posture awareness, movement breaks, and everyday wellness habits. It currently runs without authentication or a database; screens use preview data so the interface can be developed independently. Posture information is a wellness indicator, not a medical diagnosis.
 
 ## Stack
 
@@ -39,19 +39,21 @@ Create a local `.env` file in the project root or copy `.env.example`:
 ```bash
 VITE_API_BASE_URL=http://localhost:8000
 VITE_USE_MOCK_API=true
+VITE_UI_ONLY_MODE=true
 ```
 
-- `VITE_API_BASE_URL`: base URL for the FastAPI backend.
-- `VITE_USE_MOCK_API`: set to `true` to use mock data; set to `false` when the backend is ready and running. If omitted in a production build, the app defaults to its clearly labeled demo mode rather than calling a localhost API.
+- `VITE_UI_ONLY_MODE`: defaults to `true`. Keeps backend requests disabled and uses preview data. Set to `false` only when backend integration is intentionally being developed.
+- `VITE_USE_MOCK_API`: keeps API modules on preview data. Leave this `true` while in UI-only mode.
+- `VITE_API_BASE_URL`: reserved for the future FastAPI integration; it is not contacted in UI-only mode.
 
 Environment values prefixed with `VITE_` are bundled into browser code and are public. Do not put secrets, private keys, or server-only credentials in them.
 
-## Switching from mock data to FastAPI
+## Current development mode
 
-1. Start the Python FastAPI backend on `http://localhost:8000`.
-2. Set `VITE_USE_MOCK_API=false` in `.env`.
-3. Ensure your backend exposes the expected REST endpoints such as `/api/auth/login` and `/api/posture/current`.
-4. Keep the frontend API functions in `src/api/` and the same function signatures for smooth switching.
+- No login, registration, or authentication is required; protected UI pages open directly.
+- Preview measurements and recommendations are illustrative and are not saved to a database.
+- Camera-based pose landmarks run locally in the browser. Image-analysis demo mode does not send uploaded images to a server.
+- To begin backend integration later, set `VITE_UI_ONLY_MODE=false` and configure the API/mock flags deliberately, then implement authentication separately.
 
 ## Run locally
 
@@ -66,9 +68,9 @@ The app is available in the browser at the local Vite host, usually `http://loca
 
 1. Import this repository into Vercel and select the project root (the folder containing `package.json`).
 2. Use the Vite defaults: build command `npm run build` and output directory `dist`.
-3. In **Project Settings → Environment Variables**, set `VITE_API_BASE_URL` to the deployed backend URL and `VITE_USE_MOCK_API` to `false` when that backend is ready. Use `true` to keep the app in its labeled demo mode.
+3. Leave `VITE_UI_ONLY_MODE=true` for the current UI-only deployment; no backend URL or database is needed.
 4. Redeploy after changing environment variables. `vercel.json` rewrites client-side routes to the SPA entry point.
-5. Configure the backend to allow requests from the production Vercel domain. Camera access requires HTTPS; Vercel deployments provide HTTPS by default.
+5. Camera access requires HTTPS; Vercel deployments provide HTTPS by default.
 
 Never add a real `.env` file to Git. Local `.env*` files are ignored; `.env.example` is safe to commit.
 

@@ -1,7 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
 
 const PublicLayout = lazy(() => import('../pages/public/PublicLayout'));
 const Home = lazy(() => import('../pages/public/Home'));
@@ -11,10 +10,6 @@ const ImageAnalysis = lazy(() => import('../pages/public/ImageAnalysis'));
 const Privacy = lazy(() => import('../pages/public/Privacy'));
 const Contact = lazy(() => import('../pages/public/Contact'));
 const Terms = lazy(() => import('../pages/public/Terms'));
-const Login = lazy(() => import('../pages/auth/Login'));
-const Register = lazy(() => import('../pages/auth/Register'));
-const ForgotPassword = lazy(() => import('../pages/auth/ForgotPassword'));
-const ResetPassword = lazy(() => import('../pages/auth/ResetPassword'));
 const AppLayout = lazy(() => import('../pages/app/AppLayout'));
 const Dashboard = lazy(() => import('../pages/app/Dashboard'));
 const LiveMonitor = lazy(() => import('../pages/app/LiveMonitor'));
@@ -36,17 +31,6 @@ function ScrollToTop() {
   return null;
 }
 
-function PublicRoute({ children }) {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <Navigate to="/dashboard" replace /> : children;
-}
-
-function ProtectedRoute({ children }) {
-  const { isAuthenticated, loading } = useAuth();
-  if (loading) return <div className="page-shell"><div className="container section"><div className="skeleton" style={{height: 280}} /></div></div>;
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
-}
-
 export default function AppRoutes() {
   return (
     <Suspense fallback={<div className="page-shell"><div className="container section"><div className="skeleton" style={{ height: 420 }} /></div></div>}>
@@ -62,12 +46,12 @@ export default function AppRoutes() {
           <Route path="terms" element={<Terms />} />
         </Route>
 
-        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-        <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-        <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
-        <Route path="/reset-password" element={<PublicRoute><ResetPassword /></PublicRoute>} />
+        <Route path="/login" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/register" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/forgot-password" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/reset-password" element={<Navigate to="/dashboard" replace />} />
 
-        <Route path="/" element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
+        <Route path="/" element={<AppLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="live-monitor" element={<LiveMonitor />} />
           <Route path="posture-analysis" element={<PostureAnalysis />} />

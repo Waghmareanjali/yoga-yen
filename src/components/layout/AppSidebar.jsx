@@ -1,7 +1,6 @@
-import { NavLink, useNavigate } from 'react-router-dom';
-import { Activity, BookOpen, BriefcaseBusiness, History, House, LogOut, MonitorCog, Settings, Sparkles, Stethoscope, Trophy, UserRound, X } from 'lucide-react';
+import { Link, NavLink } from 'react-router-dom';
+import { Activity, BookOpen, BriefcaseBusiness, History, House, MonitorCog, Settings, Sparkles, Stethoscope, Trophy, UserRound, X } from 'lucide-react';
 import { appSidebarItems } from '../../constants/routes';
-import { useAuth } from '../../context/AuthContext';
 
 const icons = {
   'Dashboard': House,
@@ -19,14 +18,6 @@ const icons = {
 
 export default function AppSidebar({ collapsed = false, mobile = false, onClose = () => {} }) {
   const groups = ['Overview', 'Monitor', 'Wellness', 'Analytics', 'Progress', 'Account'];
-  const { logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await logout();
-    onClose();
-    navigate('/login', { replace: true });
-  };
 
   return (
     <aside className={`app-sidebar ${mobile ? 'app-sidebar-mobile' : ''}`} style={{ width: mobile ? undefined : collapsed ? 88 : 260 }}>
@@ -57,9 +48,9 @@ export default function AppSidebar({ collapsed = false, mobile = false, onClose 
           );
         })}
       </div>
-      <button className="app-sidebar-logout" type="button" onClick={handleLogout}>
-        <LogOut size={17} />{!collapsed && <span>Log out</span>}
-      </button>
+      <Link className="app-sidebar-home" to="/" onClick={onClose} title={collapsed ? 'Visit public website' : undefined}>
+        <House size={17} />{!collapsed && <span>Visit website</span>}
+      </Link>
     </aside>
   );
 }

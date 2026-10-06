@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '../../context/AuthContext';
 import './public-navbar.css';
 
 const navItems = [
@@ -16,7 +15,6 @@ const navItems = [
 
 export default function PublicNavbar() {
   const [open, setOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -38,14 +36,7 @@ export default function PublicNavbar() {
         </nav>
 
         <div className="public-header-actions" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          {isAuthenticated ? (
-            <button className="btn primary public-desktop-auth" onClick={() => navigate('/dashboard')}>Go to Dashboard</button>
-          ) : (
-            <>
-              <button className="btn ghost public-desktop-auth" onClick={() => navigate('/login')}>Login</button>
-              <button className="btn primary public-desktop-auth" onClick={() => navigate('/register')}>Get Started</button>
-            </>
-          )}
+          <button className="btn primary public-desktop-auth" onClick={() => navigate('/dashboard')}>Open Dashboard</button>
           <button className="btn ghost public-menu-button" onClick={() => setOpen(!open)} aria-label={open ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={open}>
             {open ? <X size={18} /> : <Menu size={18} />}
           </button>
@@ -64,14 +55,7 @@ export default function PublicNavbar() {
                 {navItems.map((item) => (
                   <NavLink key={item.path} to={item.path} onClick={() => setOpen(false)} style={{ padding: '10px 12px', borderRadius: 10, background: 'var(--surface-alt)', fontWeight: 600 }}>{item.label}</NavLink>
                 ))}
-                {!isAuthenticated ? (
-                  <div className="public-mobile-auth">
-                    <button className="btn ghost" onClick={() => { setOpen(false); navigate('/login'); }}>Login</button>
-                    <button className="btn primary" onClick={() => { setOpen(false); navigate('/register'); }}>Get Started</button>
-                  </div>
-                ) : (
-                  <button className="btn primary" onClick={() => { setOpen(false); navigate('/dashboard'); }}>Go to Dashboard</button>
-                )}
+                <button className="btn primary" onClick={() => { setOpen(false); navigate('/dashboard'); }}>Open Dashboard</button>
               </div>
             </motion.div>
           </motion.div>

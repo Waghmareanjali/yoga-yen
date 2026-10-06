@@ -1,11 +1,13 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 const configuredMockMode = import.meta.env.VITE_USE_MOCK_API;
-const USE_MOCK_API = configuredMockMode === undefined
-  ? import.meta.env.PROD
-  : configuredMockMode === 'true';
+const UI_ONLY_MODE = import.meta.env.VITE_UI_ONLY_MODE !== 'false';
+const USE_MOCK_API = UI_ONLY_MODE
+  || configuredMockMode === 'true'
+  || (configuredMockMode === undefined && import.meta.env.PROD);
 
 export const apiConfig = {
   baseUrl: API_BASE_URL,
+  uiOnlyMode: UI_ONLY_MODE,
   useMockApi: USE_MOCK_API,
 };
 

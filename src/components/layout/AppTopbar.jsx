@@ -1,14 +1,13 @@
-import { Bell, LogOut, Menu, Moon, SunMedium, Wifi, WifiOff, PanelLeftOpen, PanelLeftClose, Play, X } from 'lucide-react';
+import { Bell, Menu, Moon, SunMedium, Wifi, WifiOff, PanelLeftOpen, PanelLeftClose, Play, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSettingsStore } from '../../store/settingsStore';
-import { useAuth } from '../../context/AuthContext';
+import { apiConfig } from '../../api/client';
 
 export default function AppTopbar({ title, onToggleSidebar, collapsed, onToggleMobileMenu, mobileOpen }) {
   const navigate = useNavigate();
   const theme = useSettingsStore((state) => state.theme);
   const toggleTheme = useSettingsStore((state) => state.toggleTheme);
-  const { logout } = useAuth();
   const [online, setOnline] = useState(navigator.onLine);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
@@ -21,11 +20,6 @@ export default function AppTopbar({ title, onToggleSidebar, collapsed, onToggleM
       window.removeEventListener('offline', updateOnline);
     };
   }, []);
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/login', { replace: true });
-  };
 
   return (
     <header className="app-topbar">
@@ -44,8 +38,7 @@ export default function AppTopbar({ title, onToggleSidebar, collapsed, onToggleM
 
       <div className="app-topbar-actions">
         <div className="status-pill app-online-pill">
-          {online ? <Wifi size={14} /> : <WifiOff size={14} />}
-          {online ? 'Online' : 'Offline'}
+          {apiConfig.uiOnlyMode ? 'UI Preview' : <>{online ? <Wifi size={14} /> : <WifiOff size={14} />}{online ? 'Online' : 'Offline'}</>}
         </div>
         <button className="btn primary app-monitor-cta" onClick={() => navigate('/live-monitor')}>
           <Play size={16} /> Start Monitoring
@@ -59,9 +52,6 @@ export default function AppTopbar({ title, onToggleSidebar, collapsed, onToggleM
           </button>
           {notificationsOpen && <div className="app-notification-popover"><strong>You&apos;re all caught up</strong><span>New reminders will appear here.</span></div>}
         </div>
-        <button className="btn ghost app-icon-button app-logout-button" onClick={handleLogout} aria-label="Log out" title="Log out">
-          <LogOut size={17} />
-        </button>
       </div>
     </header>
   );
