@@ -1,0 +1,12 @@
+.public-menu-button { display: none; align-items: center; justify-content: center; padding: 10px 12px; }
+.public-mobile-auth { display: flex; gap: 10px; margin-top: 8px; }
+.public-mobile-auth > * { flex: 1; }
+@media (max-width: 1020px) {
+  .public-navbar .nav-links { display: none !important; }
+  .public-menu-button { display: inline-flex; }
+}
+@media (max-width: 600px) {
+  .public-header-inner { min-height: 66px !important; }
+  .public-header-actions { gap: 8px !important; }
+  .public-desktop-auth { display: none; }
+}

@@ -1,0 +1,47 @@
+.yoga-page { display: grid; gap: 17px; }
+.yoga-page .page-header { margin-bottom: 0; }
+.yoga-page .page-header h1 { margin: 9px 0 5px; font-size: clamp(22px,3vw,30px); }
+.yoga-page .page-header p { margin: 0; font-size: 11px; }
+.yoga-complete-count { color: var(--primary); font-size: 11px; font-weight: 750; }
+.yoga-recommendations { padding: 16px; }
+.yoga-section-title { display: flex; align-items: center; gap: 10px; }
+.yoga-section-title > span { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px; background: var(--accent-light); color: #90641f; }
+.yoga-section-title h2 { margin: 0 0 3px; font-size: 13px; }
+.yoga-section-title p { margin: 0; font-size: 10px; }
+.yoga-recommendation-list { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin-top: 13px; }
+.yoga-recommendation-item { display: flex; align-items: flex-start; gap: 8px; padding: 10px; border-radius: 10px; background: var(--surface-alt); }
+.yoga-recommendation-item strong, .yoga-recommendation-item small { display: block; }
+.yoga-recommendation-item strong { font-size: 10px; }
+.yoga-recommendation-item small { margin-top: 3px; color: var(--text-secondary); font-size: 9px; line-height: 1.45; }
+.yoga-recommendation-empty { padding: 10px; color: var(--text-secondary); font-size: 10px; }
+.yoga-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 13px; }
+.yoga-exercise-card { overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }
+.yoga-exercise-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.yoga-exercise-visual { min-height: 116px; display: flex; align-items: center; justify-content: space-between; padding: 17px; color: var(--primary); background: linear-gradient(140deg,#eaf0e8,#d6e5d9); }
+.yoga-exercise-visual > span { padding: 5px 8px; border-radius: 99px; background: rgba(255,255,255,.65); color: var(--primary-dark); font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.yoga-visual-1 { background: linear-gradient(140deg,#f3ead7,#e8d9b9); color: #8b682e; }
+.yoga-visual-2 { background: linear-gradient(140deg,#e2ecec,#c9dddd); color: #3e716e; }
+.yoga-visual-3 { background: linear-gradient(140deg,#efe6e3,#e0d2c9); color: #7e5e51; }
+.yoga-exercise-body { padding: 14px; }
+.yoga-exercise-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--text-secondary); font-size: 9px; }
+.yoga-exercise-meta > span:last-child { display: inline-flex; align-items: center; gap: 5px; }
+.yoga-exercise-body h2 { margin: 12px 0 5px; font-size: 14px; }
+.yoga-exercise-body p { min-height: 43px; font-size: 10px; line-height: 1.55; }
+.yoga-exercise-body .btn { width: 100%; display: flex; justify-content: center; align-items: center; gap: 7px; padding: 9px; font-size: 10px; }
+.yoga-card-skeleton { min-height: 260px; }
+.yoga-empty { min-height: 150px; display: grid; justify-items: center; align-content: center; gap: 8px; color: var(--text-secondary); }
+.yoga-empty strong { color: var(--text-primary); font-size: 12px; }
+.yoga-empty span { font-size: 10px; }
+.yoga-modal-backdrop { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: 15px; background: rgba(15,26,21,.5); backdrop-filter: blur(4px); }
+.yoga-exercise-modal { position: relative; width: min(100%,430px); overflow: hidden; padding: 0 22px 22px; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow-lg); }
+.yoga-modal-close { position: absolute; top: 10px; right: 10px; z-index: 1; width: 34px; height: 34px; display: grid; place-items: center; border: 0; border-radius: 10px; background: rgba(255,255,255,.84); color: var(--text-primary); cursor: pointer; }
+.yoga-modal-visual { margin: 0 -22px 17px; min-height: 130px; }
+.yoga-exercise-modal h2 { margin: 10px 0 5px; font-size: 20px; }
+.yoga-exercise-modal > p { font-size: 11px; }
+.yoga-timer { margin: 14px 0; color: var(--primary); text-align: center; font-size: 38px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.yoga-exercise-modal .yoga-safety { padding: 9px; border-radius: 9px; background: var(--surface-alt); font-size: 9px; }
+.yoga-modal-actions { display: flex; gap: 9px; }
+.yoga-modal-actions .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; flex: 1; }
+@media (max-width: 850px) { .yoga-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 600px) { .yoga-page .page-header { align-items: flex-start; } .yoga-recommendation-list { grid-template-columns: 1fr; } .yoga-grid { grid-template-columns: 1fr; } .yoga-exercise-visual { min-height: 94px; } }
+@media (prefers-reduced-motion: reduce) { .yoga-exercise-card { transition: none; } .yoga-exercise-card:hover { transform: none; } }
