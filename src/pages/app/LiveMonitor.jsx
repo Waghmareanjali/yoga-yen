@@ -15,6 +15,8 @@ const LANDMARK_INTERVAL_MS = 1200;
 export default function LiveMonitor() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  const recordedChunksRef = useRef([]);
   const landmarkerRef = useRef(null);
   const lastSentAtRef = useRef(0);
   const { stream, status: cameraStatus, error: cameraError, start: requestCamera, stop: stopCamera } = useCamera();
@@ -175,6 +177,51 @@ export default function LiveMonitor() {
       setPaused(false);
       setAnalysisMessage('');
       setSessionSeconds(0);
+      const mediaRecorder = new MediaRecorder(nextStream, {
+        mimeType: 'video/webm',
+      });
+
+      recordedChunksRef.current = [];
+
+       mediaRecorder.ondataavailable = (event) => {
+  if (event.data.size > 0) {
+    recordedChunksRef.current.push(event.data);
+  }
+};
+
+mediaRecorder.onstop = async () => {
+  const videoBlob = new Blob(recordedChunksRef.current, {
+    type: 'video/webm',
+  });
+
+  recordedChunksRef.current = [];
+
+  const formData = new FormData();
+  formData.append('file', videoBlob, `yogayen-${Date.now()}.webm`);
+
+  try {
+    setAnalysisMessage('Uploading recorded video...');
+
+    const response = await fetch('http://127.0.0.1:8000/upload-video', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('Video upload failed.');
+    }
+
+    const result = await response.json();
+
+    console.log('Video uploaded:', result);
+    setAnalysisMessage('Video uploaded successfully.');
+  } catch (error) {
+    console.error('Video upload error:', error);
+    setAnalysisMessage(error?.message || 'Could not upload recorded video.');
+  }
+};
+mediaRecorder.start();
+mediaRecorderRef.current = mediaRecorder;
     } catch (error) {
       nextStream.getTracks().forEach((track) => track.stop());
       setAnalysisMessage(error?.message || 'Could not start the monitoring session.');
@@ -185,6 +232,9 @@ export default function LiveMonitor() {
     setRunning(false);
     pausedRef.current = false;
     setPaused(false);
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+  mediaRecorderRef.current.stop();
+}
     setCurrentPosture('');
     setRisk(null);
     setModelStatus('not-started');
