@@ -24,3 +24,18 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Python virtual environment
+backend/venv/
+
+# Generated videos
+backend/uploads/
+
+# Generated frames
+backend/frames/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment files
+backend/.env
