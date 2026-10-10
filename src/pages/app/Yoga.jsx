@@ -2,8 +2,20 @@ import { useEffect, useState } from 'react';
 import { Check, Clock3, Play, RotateCcw, Sparkles, X } from 'lucide-react';
 import { recommendationApi } from '../../api/recommendationApi';
 import AuthAlert from '../../components/auth/AuthAlert';
+import shoulderRollsImage from '../../assets/exercises/seated-shoulder-rolls.svg';
+import sideStretchImage from '../../assets/exercises/seated-side-stretch.svg';
+import wristResetImage from '../../assets/exercises/wrist-hand-reset.svg';
+import postureResetImage from '../../assets/exercises/standing-posture-reset.svg';
 import { useTaskStore } from '../../store/taskStore';
 import './yoga.css';
+
+function getExerciseImage(exercise) {
+  const details = `${exercise.title} ${exercise.focus || ''}`.toLowerCase();
+  if (details.includes('shoulder')) return shoulderRollsImage;
+  if (details.includes('wrist') || details.includes('hand')) return wristResetImage;
+  if (details.includes('posture') || details.includes('standing')) return postureResetImage;
+  return sideStretchImage;
+}
 
 export default function Yoga() {
   const [exercises, setExercises] = useState([]);
@@ -83,9 +95,12 @@ export default function Yoga() {
         </div>
       </section>
       <div className="yoga-grid">
-        {loading ? [...Array(3)].map((_, index) => <div className="skeleton yoga-card-skeleton" key={index} />) : exercises.map((exercise, index) => (
+        {loading ? [...Array(3)].map((_, index) => <div className="skeleton yoga-card-skeleton" key={index} />) : exercises.map((exercise) => (
           <article className="card yoga-exercise-card" key={exercise.id}>
-            <div className={`yoga-exercise-visual yoga-visual-${index % 4}`}><span>{exercise.focus || 'Movement'}</span><Sparkles size={23} /></div>
+            <div className="yoga-exercise-visual">
+              <img src={getExerciseImage(exercise)} alt={`Illustration for ${exercise.title}`} />
+              <span>{exercise.focus || 'Movement'}</span>
+            </div>
             <div className="yoga-exercise-body">
               <div className="yoga-exercise-meta"><span className="badge info">{exercise.difficulty || 'Gentle'}</span><span><Clock3 size={13} />{exercise.duration} sec</span></div>
               <h2>{exercise.title}</h2>
@@ -101,7 +116,10 @@ export default function Yoga() {
         <div className="yoga-modal-backdrop" role="presentation" onClick={closeExercise}>
           <section className="yoga-exercise-modal" role="dialog" aria-modal="true" aria-labelledby="exercise-modal-title" onClick={(event) => event.stopPropagation()}>
             <button className="yoga-modal-close" onClick={closeExercise} aria-label="Close exercise"><X size={18} /></button>
-            <div className="yoga-exercise-visual yoga-modal-visual"><span>{selected.focus || 'Movement'}</span><Sparkles size={25} /></div>
+            <div className="yoga-exercise-visual yoga-modal-visual">
+              <img src={getExerciseImage(selected)} alt={`Illustration for ${selected.title}`} />
+              <span>{selected.focus || 'Movement'}</span>
+            </div>
             <span className="badge info">{selected.difficulty || 'Gentle'} · {selected.duration} sec</span>
             <h2 id="exercise-modal-title">{selected.title}</h2>
             <p>{selected.description}</p>
