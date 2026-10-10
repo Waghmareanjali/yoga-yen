@@ -5,7 +5,8 @@ from pathlib import Path
 def extract_frames(video_path):
     video_path = Path(video_path)
 
-    frames_dir = Path("frames")
+    backend_dir = Path(__file__).resolve().parent
+    frames_dir = backend_dir / "frames"
 
     session_name = video_path.stem
     output_dir = frames_dir / session_name
