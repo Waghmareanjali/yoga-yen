@@ -1,0 +1,46 @@
+{
+  "score": 78,
+  "risk": 34,
+  "sittingHours": 4.2,
+  "alerts": 8,
+  "trends": [
+    {
+      "name": "Sun",
+      "score": 72,
+      "risk": 41
+    },
+    {
+      "name": "Mon",
+      "score": 76,
+      "risk": 36
+    },
+    {
+      "name": "Tue",
+      "score": 69,
+      "risk": 48
+    },
+    {
+      "name": "Wed",
+      "score": 81,
+      "risk": 29
+    },
+    {
+      "name": "Thu",
+      "score": 78,
+      "risk": 34
+    },
+    {
+      "name": "Fri",
+      "score": 84,
+      "risk": 25
+    },
+    {
+      "name": "Sat",
+      "score": 86,
+      "risk": 22
+    }
+  ],
+  "bestDay": "Today",
+  "postureClass": "Extended sitting",
+  "improved": 8
+}
