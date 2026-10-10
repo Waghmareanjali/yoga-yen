@@ -39,3 +39,14 @@ __pycache__/
 
 # Environment files
 backend/.env
+
+# Root Python virtual environment
+/venv/
+
+# Generated pose detection outputs
+backend/outputs/
+
+# Local backup and test files
+backend/process_pose_backup.py
+backend/test_mediapipe.py
+t-Path backendprocess_pose_backup.py
