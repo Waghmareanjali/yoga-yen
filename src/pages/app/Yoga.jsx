@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { Check, Clock3, Play, RotateCcw, Sparkles, X } from 'lucide-react';
 import { recommendationApi } from '../../api/recommendationApi';
 import AuthAlert from '../../components/auth/AuthAlert';
-import shoulderRollsImage from '../../assets/exercises/seated-shoulder-rolls.svg';
-import sideStretchImage from '../../assets/exercises/seated-side-stretch.svg';
-import wristResetImage from '../../assets/exercises/wrist-hand-reset.svg';
-import postureResetImage from '../../assets/exercises/standing-posture-reset.svg';
+import shoulderRollsImage from '../../assets/exercises/seated-shoulder-rolls.png';
+import sideStretchImage from '../../assets/exercises/seated-side-stretch.png';
+import wristResetImage from '../../assets/exercises/wrist-hand-reset.png';
+import postureResetImage from '../../assets/exercises/standing-posture-reset.png';
 import { useTaskStore } from '../../store/taskStore';
 import './yoga.css';
 
