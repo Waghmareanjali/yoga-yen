@@ -3,3 +3,7 @@ uvicorn[standard]
 python-multipart
 opencv-python
 mediapipe
+pymongo
+python-dotenv
+pwdlib[argon2]
+PyJWT
