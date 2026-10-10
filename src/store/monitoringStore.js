@@ -3,8 +3,8 @@ import { create } from 'zustand';
 export const useMonitoringStore = create((set) => ({
   cameraStatus: 'idle',
   calibrationState: 'not-started',
-  currentPosture: 'Good Posture',
-  riskValue: 28,
+  currentPosture: null,
+  riskValue: null,
   sittingDuration: 0,
   sessionId: null,
   isLive: false,
@@ -18,8 +18,8 @@ export const useMonitoringStore = create((set) => ({
   resetMonitoring: () => set({
     cameraStatus: 'idle',
     calibrationState: 'not-started',
-    currentPosture: 'Good Posture',
-    riskValue: 28,
+    currentPosture: null,
+    riskValue: null,
     sittingDuration: 0,
     sessionId: null,
     isLive: false,

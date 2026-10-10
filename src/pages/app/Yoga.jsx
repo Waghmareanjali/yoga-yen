@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Check, Clock3, Play, RotateCcw, Sparkles, X } from 'lucide-react';
 import { recommendationApi } from '../../api/recommendationApi';
-import { apiConfig } from '../../api/client';
 import AuthAlert from '../../components/auth/AuthAlert';
+import { useTaskStore } from '../../store/taskStore';
 import './yoga.css';
 
 export default function Yoga() {
@@ -14,6 +14,7 @@ export default function Yoga() {
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const incrementCategoryProgress = useTaskStore((state) => state.incrementCategoryProgress);
 
   useEffect(() => {
     let mounted = true;
@@ -56,23 +57,29 @@ export default function Yoga() {
     setActive(false);
   };
 
-  const completeExercise = () => {
+  const completeExercise = async () => {
     if (selected) setCompleted((items) => [...new Set([...items, selected.id])]);
     closeExercise();
+    try {
+      await incrementCategoryProgress('Exercise');
+      setError('');
+    } catch (taskError) {
+      setError(taskError?.message || 'The completed exercise could not update your goal.');
+    }
   };
 
   return (
     <div className="yoga-page">
       <div className="page-header">
-        <div><span className="badge info">{apiConfig.useMockApi ? 'Demo Data' : 'Personalized guidance'}</span><h1>Yoga &amp; Wellness Guidance</h1><p>Gentle movement ideas for posture awareness. These exercises do not diagnose or treat a health condition.</p></div>
+        <div><h1>Yoga &amp; Wellness Guidance</h1><p>Gentle movement ideas for posture awareness. These exercises do not diagnose or treat a health condition.</p></div>
         <span className="yoga-complete-count">{completed.length} completed</span>
       </div>
       {error && <AuthAlert>{error}</AuthAlert>}
       <section className="yoga-recommendations card">
-        <div className="yoga-section-title"><span><Sparkles size={17} /></span><div><h2>Suggested focus</h2><p>{apiConfig.useMockApi ? 'Illustrative suggestions in Demo mode; connect posture analysis for personalized guidance.' : 'Suggestions provided by your connected wellness backend.'}</p></div></div>
+        <div className="yoga-section-title"><span><Sparkles size={17} /></span><div><h2>Suggested focus</h2><p>Your recommendations will appear here when the wellness service is connected.</p></div></div>
         <div className="yoga-recommendation-list">
           {recommendations.map((item) => <div key={item.id} className="yoga-recommendation-item"><span className={`history-risk ${item.severity === 'high' ? 'high' : item.severity === 'medium' ? 'medium' : 'low'}`}>{item.severity || 'tip'}</span><div><strong>{item.title}</strong><small>{item.summary || item.description}</small></div></div>)}
-          {!recommendations.length && <span className="yoga-recommendation-empty">{apiConfig.useMockApi ? 'No preview suggestions are available.' : 'No recommendations are available yet.'}</span>}
+          {!recommendations.length && <span className="yoga-recommendation-empty">No recommendations are available yet.</span>}
         </div>
       </section>
       <div className="yoga-grid">

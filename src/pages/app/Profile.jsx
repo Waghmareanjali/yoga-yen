@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BadgeCheck, Save, UserRound } from 'lucide-react';
 import { profileApi } from '../../api/profileApi';
-import { apiConfig } from '../../api/client';
 import { useAuth } from '../../context/AuthContext';
 import AuthAlert from '../../components/auth/AuthAlert';
 import './profile.css';
@@ -71,7 +70,7 @@ export default function Profile() {
     }
     setSaving(true);
     try {
-      const { user: savedProfile, demo: isDemo } = await profileApi.updateProfile({
+      const { user: savedProfile } = await profileApi.updateProfile({
         ...form,
         age: form.age === '' ? null : Number(form.age),
         height: form.height === '' ? null : Number(form.height),
@@ -79,7 +78,7 @@ export default function Profile() {
       });
       setForm(mapProfile(savedProfile));
       setUser((current) => ({ ...current, ...savedProfile, name: savedProfile.full_name || savedProfile.name }));
-      setSuccess(isDemo ? 'Profile saved in this browser session only (UI preview).' : 'Your profile has been updated.');
+      setSuccess('Your profile has been updated.');
     } catch (requestError) {
       setError(requestError?.message || 'Unable to save your profile.');
     } finally {
@@ -93,12 +92,11 @@ export default function Profile() {
     <div className="profile-page">
       <div className="page-header">
         <div><h1>Profile</h1><p>Manage the information used to personalize your wellness experience.</p></div>
-        {apiConfig.uiOnlyMode && <span className="badge info">UI Preview</span>}
       </div>
       <section className="card profile-card">
         <div className="profile-card-heading">
           <div className="profile-avatar">{initials || <UserRound size={22} />}</div>
-          <div><h2>Personal information</h2><p>Preview profile data is stored only in this browser.</p></div>
+          <div><h2>Personal information</h2><p>Your profile information is managed by your Yoga Yen account.</p></div>
           <BadgeCheck size={21} className="profile-heading-icon" />
         </div>
         {error && <AuthAlert>{error}</AuthAlert>}

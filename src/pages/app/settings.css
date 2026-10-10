@@ -3,6 +3,8 @@
 .settings-page .page-header p { margin: 6px 0 0; font-size: 12px; }
 .settings-content { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: start; }
 .settings-section { padding: 18px; }
+.settings-capture-section { display: grid; gap: 15px; }
+.settings-reset-capture { justify-self: start; color: var(--primary); font-size: 10px; }
 .settings-section-heading { display: flex; align-items: center; gap: 10px; margin-bottom: 13px; }
 .settings-section-heading > span { width: 33px; height: 33px; display: grid; place-items: center; border-radius: 10px; background: var(--secondary-light); color: var(--primary); }
 .settings-section-heading h2, .settings-account h2 { margin: 0; font-size: 14px; }

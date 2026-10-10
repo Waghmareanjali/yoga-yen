@@ -1,9 +1,13 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import AppSidebar from '../../components/layout/AppSidebar';
 import AppTopbar from '../../components/layout/AppTopbar';
 import { useSettingsStore } from '../../store/settingsStore';
+import { isPreviewMode } from '../../data/previewData';
+import AuthAlert from '../../components/auth/AuthAlert';
+import ToastViewport from '../../components/common/ToastViewport';
+import { useTaskStore } from '../../store/taskStore';
 import './app-layout.css';
 
 const titles = {
@@ -15,7 +19,7 @@ const titles = {
   '/breaks': 'Breaks',
   '/history': 'History & Trends',
   '/reports': 'Weekly Reports',
-  '/achievements': 'Achievements',
+  '/achievements': 'Achievements & Goals',
   '/profile': 'Profile',
   '/settings': 'Settings',
 };
@@ -25,6 +29,14 @@ export default function AppLayout() {
   const sidebarCollapsed = useSettingsStore((state) => state.sidebarCollapsed);
   const setSidebarCollapsed = useSettingsStore((state) => state.setSidebarCollapsed);
   const [mobileDrawer, setMobileDrawer] = useState({ open: false, path: location.pathname });
+  const recheckDeadlines = useTaskStore((state) => state.recheckDeadlines);
+  const loadTasks = useTaskStore((state) => state.loadTasks);
+
+  useEffect(() => {
+    loadTasks();
+    const interval = window.setInterval(recheckDeadlines, 30_000);
+    return () => window.clearInterval(interval);
+  }, [loadTasks, recheckDeadlines]);
 
   const title = titles[location.pathname] || 'Dashboard';
 
@@ -51,6 +63,11 @@ export default function AppLayout() {
             mobileOpen={drawerVisible}
           />
           <main className="app-main-content">
+            {import.meta.env.DEV && isPreviewMode() && (
+              <AuthAlert type="info">
+                Preview mode — sample wellness data is for display only and is not saved to a database.
+              </AuthAlert>
+            )}
             <Outlet />
           </main>
         </div>
@@ -64,6 +81,7 @@ export default function AppLayout() {
           </motion.div>
         )}
       </AnimatePresence>
+      <ToastViewport />
     </div>
   );
 }

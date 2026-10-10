@@ -14,6 +14,17 @@
 .image-preview-wrap > span { max-width: 90%; overflow: hidden; padding: 0 0 8px; color: var(--text-secondary); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
 .image-remove { position: absolute; top: 8px; right: 8px; width: 31px; height: 31px; display: grid; place-items: center; border: 0; border-radius: 9px; background: var(--surface); cursor: pointer; }
 .image-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.timed-snapshot-settings { display: grid; gap: 10px; margin-top: 15px; padding: 13px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-alt); }
+.timed-snapshot-settings h3 { margin: 0 0 3px; font-size: 12px; }
+.timed-snapshot-settings p { margin: 0; font-size: 9px; }
+.timed-snapshot-fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+.timed-snapshot-fields label { display: grid; gap: 5px; color: var(--text-secondary); font-size: 10px; }
+.timed-snapshot-fields input { width: 100%; min-width: 0; padding: 7px 9px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text-primary); }
+.timed-snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(115px,1fr)); gap: 8px; }
+.timed-snapshot-grid article { display: grid; gap: 5px; min-width: 0; padding: 7px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface); }
+.timed-snapshot-grid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 6px; }
+.timed-snapshot-grid span { font-size: 9px; }
+.timed-snapshot-grid .btn { min-height: 28px; padding: 4px 6px; font-size: 9px; }
 .image-actions .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
 .image-privacy-note { display: flex; gap: 8px; margin-top: 14px; padding: 10px; border-radius: 9px; background: var(--surface-alt); color: var(--text-secondary); font-size: 9px; line-height: 1.55; }
 .image-privacy-note svg { flex: 0 0 auto; color: var(--primary); }
@@ -35,6 +46,7 @@
 .camera-modal-header p { margin: 0; font-size: 10px; }
 .camera-modal-header button { width: 32px; height: 32px; display: grid; place-items: center; border: 0; border-radius: 8px; background: var(--surface-alt); cursor: pointer; }
 .camera-modal video { display: block; width: 100%; max-height: 60vh; background: #101614; object-fit: contain; }
+.timed-snapshot-status { padding: 8px 15px 0; color: var(--primary); font-size: 11px; font-weight: 700; }
 .camera-modal-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 16px; }
 @media (max-width: 680px) { .image-analysis-layout { grid-template-columns: 1fr; } .image-result-empty { min-height: 150px; } }
 @media (prefers-reduced-motion: reduce) { .image-dropzone { transition: none; } }

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { ArrowRight, Mail, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { apiConfig } from '../../api/client';
 import { requestPasswordReset } from '../../api/authApi';
 import AuthAlert from '../../components/auth/AuthAlert';
 import AuthField from '../../components/auth/AuthField';
@@ -32,9 +31,7 @@ export default function ForgotPassword() {
     setLoading(true);
     try {
       await requestPasswordReset({ email: email.trim() });
-      setMessage(apiConfig.useMockApi
-        ? 'Preview only: password reset is not connected to an email service in Demo mode.'
-        : 'If an account exists for this email, password reset instructions will be sent.');
+      setMessage('If an account exists for this email, password reset instructions will be sent.');
     } catch (requestError) {
       setApiError(requestError?.message || 'Unable to request a password reset right now.');
     } finally {
@@ -49,7 +46,6 @@ export default function ForgotPassword() {
         <h1>Forgot Your Password?</h1>
         <p>Enter your registered email address and we&apos;ll help you reset your password.</p>
       </div>
-      {apiConfig.useMockApi && <div className="auth-demo-note"><Mail size={15} /><span>Demo mode is active. No reset email will be sent.</span></div>}
       <AuthAlert>{apiError}</AuthAlert>
       <AuthAlert type="success">{message}</AuthAlert>
       <form className="auth-form" onSubmit={handleSubmit} noValidate>

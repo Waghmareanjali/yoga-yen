@@ -3,7 +3,7 @@ import { create } from 'zustand';
 export const useNotificationStore = create((set, get) => ({
   notifications: [],
   addNotification: (notification) => {
-    const item = { id: Date.now() + Math.random(), ...notification };
+    const item = { id: Date.now() + Math.random(), createdAt: new Date().toISOString(), ...notification };
     set((state) => ({ notifications: [...state.notifications, item] }));
     return item;
   },

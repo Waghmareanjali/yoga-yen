@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { AlarmClock, Check, Clock3, Coffee, Eye, Footprints, Pause, Play, RotateCcw, Sparkles, StretchHorizontal } from 'lucide-react';
 import { DEFAULT_BREAK_INTERVAL } from '../../constants/risk';
+import { isPreviewMode } from '../../data/previewData';
+import { useTaskStore } from '../../store/taskStore';
 import './breaks.css';
 
 const suggestions = [
@@ -12,11 +14,13 @@ const suggestions = [
 
 export default function BreakReminders() {
   const [intervalMinutes, setIntervalMinutes] = useState(DEFAULT_BREAK_INTERVAL / 60000);
-  const [remainingSeconds, setRemainingSeconds] = useState(14 * 60);
+  const [remainingSeconds, setRemainingSeconds] = useState(DEFAULT_BREAK_INTERVAL / 1000);
   const [breakSeconds, setBreakSeconds] = useState(0);
-  const [breaksTaken, setBreaksTaken] = useState(0);
+  const [breaksTaken, setBreaksTaken] = useState(() => (import.meta.env.DEV && isPreviewMode() ? 2 : 0));
   const [reminderEnabled, setReminderEnabled] = useState(true);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [taskError, setTaskError] = useState('');
+  const incrementCategoryProgress = useTaskStore((state) => state.incrementCategoryProgress);
 
   useEffect(() => {
     if (!reminderEnabled || breakSeconds > 0 || remainingSeconds <= 0) return undefined;
@@ -46,10 +50,16 @@ export default function BreakReminders() {
     setBreakSeconds(2 * 60);
     setRemainingSeconds(intervalMinutes * 60);
   };
-  const finishBreak = () => {
+  const finishBreak = async () => {
     setBreakSeconds(0);
     setBreaksTaken((count) => count + 1);
     setRemainingSeconds(intervalMinutes * 60);
+    try {
+      await incrementCategoryProgress('Breaks');
+      setTaskError('');
+    } catch (error) {
+      setTaskError(error?.message || 'The completed break could not update your wellness goal.');
+    }
   };
   const snooze = () => {
     setShowConfirmation(false);
@@ -62,10 +72,11 @@ export default function BreakReminders() {
         <div><h1>Breaks</h1><p>Small pauses help create a steadier work rhythm. Choose the movement that feels comfortable for you.</p></div>
         <span className="badge success">{reminderEnabled ? 'Reminders on' : 'Reminders paused'}</span>
       </div>
+      {taskError && <div className="monitor-error" role="alert">{taskError}</div>}
 
       <div className="break-hero-grid">
         <section className="card break-timer-card">
-          <div className="break-timer-top"><span className="break-timer-icon"><AlarmClock size={20} /></span><span className="badge info">Preview schedule</span></div>
+          <div className="break-timer-top"><span className="break-timer-icon"><AlarmClock size={20} /></span><span className="badge info">Suggested schedule</span></div>
           <span className="break-label">{breakSeconds > 0 ? 'Movement break' : 'Next suggested break'}</span>
           <strong className="break-countdown">{formatTime(breakSeconds > 0 ? breakSeconds : remainingSeconds)}</strong>
           <p>{breakSeconds > 0 ? 'Take a moment to move at your own pace.' : 'Reminder timing can be adjusted in Settings.'}</p>

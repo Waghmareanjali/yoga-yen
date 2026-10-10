@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Activity, Clock3, HeartPulse } from 'lucide-react';
 import { postureApi } from '../../api/postureApi';
-import { apiConfig } from '../../api/client';
 import StatCard from '../../components/common/StatCard';
 import AuthAlert from '../../components/auth/AuthAlert';
 import './posture-analysis.css';
@@ -33,7 +32,7 @@ export default function PostureAnalysis() {
   return (
     <div className="posture-analysis-page" style={{ display: 'grid', gap: 20 }}>
       <div className="page-header">
-        <div><span className={`badge ${apiConfig.useMockApi ? 'info' : 'success'}`}>{apiConfig.useMockApi ? 'Demo Data' : 'Live data'}</span><h1>Posture Analysis</h1><p>Review session indicators and your recent posture-awareness history.</p></div>
+        <div><h1>Posture Analysis</h1><p>Review session indicators and your recent posture-awareness history.</p></div>
       </div>
       {error && <AuthAlert>{error}</AuthAlert>}
       <div className="grid grid-3">

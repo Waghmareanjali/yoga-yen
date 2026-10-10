@@ -25,6 +25,7 @@ export default function PasswordInput({
         onChange={onChange}
         onBlur={onBlur}
         required
+        minLength={8}
         placeholder={placeholder}
         autoComplete={autoComplete}
         aria-invalid={Boolean(error)}

@@ -3,7 +3,7 @@ import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tool
 export default function TrendChart({ data }) {
   return (
     <div className="card" style={{ padding: 20 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'center' }}><h3>Wellness trend</h3>{data.some((item) => item.demo) && <span className="badge info">Demo Data</span>}</div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'center' }}><h3>Wellness trend</h3></div>
       {!data.length ? <div style={{ minHeight: 220, display: 'grid', placeItems: 'center', color: 'var(--text-secondary)', fontSize: 12 }}>No trend data is available yet.</div> : (
       <div style={{ height: 260 }}>
         <ResponsiveContainer width="100%" height="100%">

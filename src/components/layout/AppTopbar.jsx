@@ -1,25 +1,16 @@
-import { Bell, Menu, Moon, SunMedium, Wifi, WifiOff, PanelLeftOpen, PanelLeftClose, Play, X } from 'lucide-react';
+import { Bell, Menu, Moon, SunMedium, PanelLeftOpen, PanelLeftClose, Play, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSettingsStore } from '../../store/settingsStore';
-import { apiConfig } from '../../api/client';
+import { useNotificationStore } from '../../store/notificationStore';
 
 export default function AppTopbar({ title, onToggleSidebar, collapsed, onToggleMobileMenu, mobileOpen }) {
   const navigate = useNavigate();
   const theme = useSettingsStore((state) => state.theme);
   const toggleTheme = useSettingsStore((state) => state.toggleTheme);
-  const [online, setOnline] = useState(navigator.onLine);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-
-  useEffect(() => {
-    const updateOnline = () => setOnline(navigator.onLine);
-    window.addEventListener('online', updateOnline);
-    window.addEventListener('offline', updateOnline);
-    return () => {
-      window.removeEventListener('online', updateOnline);
-      window.removeEventListener('offline', updateOnline);
-    };
-  }, []);
+  const notifications = useNotificationStore((state) => state.notifications);
+  const removeNotification = useNotificationStore((state) => state.removeNotification);
 
   return (
     <header className="app-topbar">
@@ -37,9 +28,6 @@ export default function AppTopbar({ title, onToggleSidebar, collapsed, onToggleM
       </div>
 
       <div className="app-topbar-actions">
-        <div className="status-pill app-online-pill">
-          {apiConfig.uiOnlyMode ? 'UI Preview' : <>{online ? <Wifi size={14} /> : <WifiOff size={14} />}{online ? 'Online' : 'Offline'}</>}
-        </div>
         <button className="btn primary app-monitor-cta" onClick={() => navigate('/live-monitor')}>
           <Play size={16} /> Start Monitoring
         </button>
@@ -50,7 +38,17 @@ export default function AppTopbar({ title, onToggleSidebar, collapsed, onToggleM
           <button className="btn ghost app-icon-button" onClick={() => setNotificationsOpen((open) => !open)} aria-label="Notifications" aria-expanded={notificationsOpen}>
             <Bell size={18} />
           </button>
-          {notificationsOpen && <div className="app-notification-popover"><strong>You&apos;re all caught up</strong><span>New reminders will appear here.</span></div>}
+          {notificationsOpen && (
+            <div className="app-notification-popover" role="region" aria-label="Notifications">
+              <strong>{notifications.length ? 'Recent notifications' : 'You’re all caught up'}</strong>
+              {notifications.length ? notifications.slice(-5).reverse().map((notification) => (
+                <div className="app-notification-item" key={notification.id}>
+                  <span><b>{notification.title}</b><small>{notification.description}</small></span>
+                  <button type="button" className="btn ghost" aria-label={`Dismiss ${notification.title}`} onClick={() => removeNotification(notification.id)}>×</button>
+                </div>
+              )) : <span>Task due-soon and missed reminders will appear here.</span>}
+            </div>
+          )}
         </div>
       </div>
     </header>

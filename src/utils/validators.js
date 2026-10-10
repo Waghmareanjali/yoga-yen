@@ -1,14 +1,13 @@
-export const validateEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+export const validateEmail = (value) => /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(value.trim());
 
-export const validatePassword = (value) => value && value.length >= 8;
+export const validatePassword = (value) => typeof value === 'string' && value.length >= 8;
 
 export const validateName = (value) => value && value.trim().length >= 2;
 
+export const validatePhone = (value) => /^\d{10}$/.test(value);
+
 export const passwordRules = [
   { key: 'length', label: 'At least 8 characters', test: (value) => value.length >= 8 },
-  { key: 'upper', label: 'One uppercase letter', test: (value) => /[A-Z]/.test(value) },
-  { key: 'lower', label: 'One lowercase letter', test: (value) => /[a-z]/.test(value) },
-  { key: 'number', label: 'One number', test: (value) => /\d/.test(value) },
 ];
 
 export const validateSecurePassword = (value) => passwordRules.every((rule) => rule.test(value));

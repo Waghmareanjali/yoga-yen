@@ -1,28 +1,38 @@
-import { mockSettings } from '../data/mockData';
-import { apiConfig, apiRequest } from './client';
+import { apiRequest } from './client';
+import { getPreviewSettings, isMockApiMode, isPreviewMode, updatePreviewSettings } from '../data/previewData';
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const MOCK_SETTINGS_KEY = 'yoga-yen-mock-settings';
+function readMockSettings() {
+  try {
+    return JSON.parse(localStorage.getItem(MOCK_SETTINGS_KEY) || '{}');
+  } catch (error) {
+    console.error('Unable to read mock settings.', error);
+    return {};
+  }
+}
 
 export const settingsApi = {
   async getSettings() {
-    if (apiConfig.useMockApi) {
-      await delay(250);
-      return { settings: mockSettings, demo: true };
+    if (isMockApiMode()) {
+      const settings = { ...getPreviewSettings(), ...readMockSettings() };
+      return { settings };
     }
     const response = await apiRequest('/api/settings');
     const result = await response.json();
-    return { settings: result?.settings || result, demo: false };
+    return { settings: result?.settings || result };
   },
   async updateSettings(payload) {
-    if (apiConfig.useMockApi) {
-      await delay(250);
-      return { settings: { ...mockSettings, ...payload }, demo: true };
+    if (isMockApiMode()) {
+      if (isPreviewMode()) updatePreviewSettings(payload);
+      const settings = { ...getPreviewSettings(), ...readMockSettings(), ...payload };
+      localStorage.setItem(MOCK_SETTINGS_KEY, JSON.stringify(settings));
+      return { settings };
     }
     const response = await apiRequest('/api/settings', {
       method: 'PUT',
       body: JSON.stringify(payload),
     });
     const result = await response.json();
-    return { settings: result?.settings || result, demo: false };
+    return { settings: result?.settings || result };
   },
 };

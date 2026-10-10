@@ -31,8 +31,7 @@ export default function AppSidebar({ collapsed = false, mobile = false, onClose 
   return (
     <aside className={`app-sidebar ${mobile ? 'app-sidebar-mobile' : ''}`} style={{ width: mobile ? undefined : collapsed ? 88 : 260 }}>
       <div className="app-sidebar-brand">
-        <span className="app-sidebar-brand-icon"><Activity size={18} /></span>
-        {!collapsed && <strong>Yoga Yen</strong>}
+        <span className="app-sidebar-brand-icon"><img src="/yoga-yen-logo.png" alt="Yoga Yen" /></span>
         {mobile && <button className="app-sidebar-close" type="button" onClick={onClose} aria-label="Close navigation"><X size={19} /></button>}
       </div>
       <div className="app-sidebar-nav">
@@ -60,7 +59,7 @@ export default function AppSidebar({ collapsed = false, mobile = false, onClose 
       <Link className="app-sidebar-home" to="/" onClick={onClose} title={collapsed ? 'Visit public website' : undefined}>
         <House size={17} />{!collapsed && <span>Visit website</span>}
       </Link>
-      <button className="app-sidebar-signout" type="button" onClick={handleSignOut} title={collapsed ? 'Sign out of preview' : undefined}>
+      <button className="app-sidebar-signout" type="button" onClick={handleSignOut} title={collapsed ? 'Sign out' : undefined}>
         <LogOut size={17} />{!collapsed && <span>Sign out</span>}
       </button>
     </aside>

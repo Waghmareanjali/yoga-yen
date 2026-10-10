@@ -6,14 +6,14 @@ from mediapipe.tasks.python import vision
 from mediapipe import Image, ImageFormat
 
 
-MODEL_PATH = "models/pose_landmarker_lite.task"
+MODEL_PATH = Path(__file__).resolve().parent / "models" / "pose_landmarker_lite.task"
 
 
 def process_pose(frame_folder):
     frame_folder = Path(frame_folder)
 
     base_options = python.BaseOptions(
-        model_asset_path=MODEL_PATH
+        model_asset_path=str(MODEL_PATH)
     )
 
     options = vision.PoseLandmarkerOptions(
@@ -26,7 +26,7 @@ def process_pose(frame_folder):
 
     frame_files = sorted(frame_folder.glob("*.jpg"))
 
-    print(f"🔍 Processing {len(frame_files)} frames...")
+    print(f"Processing {len(frame_files)} frames...")
 
     detected_frames = 0
 
@@ -50,6 +50,6 @@ def process_pose(frame_folder):
 
     detector.close()
 
-    print(f"✅ Pose detected in {detected_frames} frames.")
+    print(f"Pose detected in {detected_frames} frames.")
 
     return detected_frames

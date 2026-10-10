@@ -2,7 +2,8 @@ import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle2, Camera, Activity, ShieldCheck, Sparkles, TrendingUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import SectionHeader from '../../components/common/SectionHeader';
-import Badge from '../../components/common/Badge';
+import { images } from '../../data/images';
+import { useAuth } from '../../context/AuthContext';
 
 const steps = [
   { title: 'Open Camera', description: 'Launch secure webcam analysis with a single tap.' },
@@ -22,6 +23,7 @@ const features = [
 
 export default function Home() {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   return (
     <main>
@@ -29,30 +31,31 @@ export default function Home() {
         <div className="container">
           <div className="grid grid-2" style={{ alignItems: 'center' }}>
             <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}>
-              <Badge tone="info">Demo Data</Badge>
               <h1 style={{ fontSize: 'clamp(2.7rem, 5vw, 5rem)', marginTop: 18 }}>Sit Better. Move Better. Live Better.</h1>
               <p style={{ fontSize: 20, maxWidth: 560, marginBottom: 22 }}>AI-powered posture monitoring that helps you build healthier sitting habits.</p>
               <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-                <button className="btn primary" onClick={() => navigate('/register')}>Get Started <ArrowRight size={18} /></button>
+                <button className="btn primary" onClick={() => navigate(isAuthenticated ? '/dashboard' : '/register')}>
+                  {isAuthenticated ? 'Open Dashboard' : 'Get Started'} <ArrowRight size={18} />
+                </button>
                 <button className="btn ghost" onClick={() => navigate('/features')}>Explore Features</button>
               </div>
               <div style={{ marginTop: 22, display: 'flex', gap: 24, alignItems: 'center', flexWrap: 'wrap' }}>
-                <div className="status-pill"><span className="status-dot" />Posture: Good</div>
-                <div className="status-pill"><span className="status-dot" style={{ background: 'var(--success)' }} /> Risk: Low</div>
-                <div className="status-pill">Sitting Time: 2h 14m</div>
+                <div className="status-pill">Posture awareness</div>
+                <div className="status-pill">Mindful movement</div>
+                <div className="status-pill">Personal progress</div>
               </div>
             </motion.div>
             <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} style={{ position: 'relative', padding: 28 }}>
               <div className="card" style={{ padding: 24, borderRadius: 28 }}>
+                <img
+                  src={images.wellnessHero.src}
+                  alt={images.wellnessHero.alt}
+                  style={{ width: '100%', height: 210, marginBottom: 20, borderRadius: 18, objectFit: 'cover' }}
+                />
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                  <span style={{ fontWeight: 700 }}>Daily Session</span>
-                  <Badge tone="success">Demo Data</Badge>
+                  <span style={{ fontWeight: 700 }}>Your wellness workspace</span>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                  <div className="card" style={{ padding: 16 }}><div style={{ color: 'var(--text-secondary)' }}>Posture Score</div><div style={{ fontSize: 32, fontWeight: 800 }}>86</div></div>
-                  <div className="card" style={{ padding: 16 }}><div style={{ color: 'var(--text-secondary)' }}>Risk</div><div style={{ fontSize: 32, fontWeight: 800 }}>Low</div></div>
-                  <div className="card" style={{ padding: 16, gridColumn: '1 / span 2' }}><div style={{ color: 'var(--text-secondary)' }}>Sitting Time</div><div style={{ fontSize: 28, fontWeight: 800 }}>2h 14m</div></div>
-                </div>
+                <p style={{ margin: 0, color: 'var(--text-secondary)' }}>Your personal posture insights and activity will appear here after you sign in and connect your wellness service.</p>
               </div>
             </motion.div>
           </div>
@@ -110,8 +113,10 @@ export default function Home() {
           <div className="card" style={{ padding: 40, background: 'linear-gradient(135deg, rgba(31,77,58,0.04), rgba(200,150,62,0.08))' }}>
             <p style={{ fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 10 }}>Privacy</p>
             <h2 style={{ marginBottom: 18 }}>Your privacy comes first. Yoga Yen is designed to analyze posture without unnecessarily storing webcam images or videos.</h2>
-            <p style={{ maxWidth: 760, margin: '0 auto 28px', fontSize: 18 }}>Live monitoring sends normalized landmark coordinates in connected mode. A photo is sent only when you choose to analyze it with a connected backend.</p>
-            <button className="btn primary" onClick={() => navigate('/register')}>Create a preview profile</button>
+            <p style={{ maxWidth: 760, margin: '0 auto 28px', fontSize: 18 }}>Camera access starts only when you choose to begin monitoring. Analysis results are provided by the connected wellness service.</p>
+            <button className="btn primary" onClick={() => navigate(isAuthenticated ? '/dashboard' : '/register')}>
+              {isAuthenticated ? 'Open your dashboard' : 'Create your account'}
+            </button>
           </div>
         </div>
       </section>

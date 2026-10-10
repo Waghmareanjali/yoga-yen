@@ -1,23 +1,17 @@
-import { mockWeeklyReport } from '../data/mockData';
-import { apiConfig, apiDownload, apiRequest } from './client';
-
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+import { apiDownload, apiRequest } from './client';
+import { getPreviewReport, isPreviewMode } from '../data/previewData';
 
 export const reportApi = {
   async getWeeklyReport() {
-    if (apiConfig.useMockApi) {
-      await delay(300);
-      return { report: mockWeeklyReport, demo: true };
-    }
+    if (import.meta.env.DEV && isPreviewMode()) return { report: getPreviewReport() };
     const response = await apiRequest('/api/reports/weekly');
     const result = await response.json();
-    return { report: result?.report || result, demo: false };
+    return { report: result?.report || result };
   },
-  async downloadWeeklyReport() {
-    if (apiConfig.useMockApi) {
-      await delay(250);
-      return { demo: true };
-    }
-    return { ...(await apiDownload('/api/reports/weekly/download')), demo: false };
-  },
+  downloadWeeklyReport: () => (import.meta.env.DEV && isPreviewMode()
+    ? Promise.resolve({
+        blob: new Blob([JSON.stringify(getPreviewReport(), null, 2)], { type: 'application/json' }),
+        filename: 'yoga-yen-preview-weekly-report.json',
+      })
+    : apiDownload('/api/reports/weekly/download')),
 };

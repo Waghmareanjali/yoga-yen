@@ -2,8 +2,8 @@ import { Check, Circle } from 'lucide-react';
 import { passwordRules } from '../../utils/validators';
 
 export default function PasswordRules({ value }) {
-  const passed = passwordRules.filter((rule) => rule.test(value)).length;
-  const strength = passed <= 1 ? 'Weak' : passed <= 3 ? 'Medium' : 'Strong';
+  const strength = value.length < 8 ? 'Weak' : value.length < 12 ? 'Medium' : 'Strong';
+  const filledBars = value.length < 8 ? (value ? 1 : 0) : value.length < 12 ? 2 : 4;
 
   return (
     <div className="auth-password-rules" aria-live="polite">
@@ -13,7 +13,7 @@ export default function PasswordRules({ value }) {
       </div>
       <div className="auth-strength-meter" aria-label={value ? `${strength} password` : 'Password strength not set'}>
         {[1, 2, 3, 4].map((bar) => (
-          <span key={bar} className={bar <= passed ? `filled strength-${strength.toLowerCase()}` : ''} />
+          <span key={bar} className={bar <= filledBars ? `filled strength-${strength.toLowerCase()}` : ''} />
         ))}
       </div>
       <ul>

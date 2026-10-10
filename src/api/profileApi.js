@@ -1,32 +1,24 @@
-import { mockUser } from '../data/mockData';
-import { apiConfig, apiRequest } from './client';
-
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+import { apiRequest } from './client';
+import { getPreviewProfile, isPreviewMode, updatePreviewProfile } from '../data/previewData';
 
 export const profileApi = {
   async getProfile() {
-    if (apiConfig.useMockApi) {
-      await delay(300);
-      const savedUser = sessionStorage.getItem('yoga-yen-demo-profile');
-      return { user: savedUser ? JSON.parse(savedUser) : mockUser, demo: true };
-    }
+    if (import.meta.env.DEV && isPreviewMode()) return { user: getPreviewProfile() };
     const response = await apiRequest('/api/profile');
     const result = await response.json();
-    return { user: result?.user || result?.profile || result, demo: false };
+    return { user: result?.user || result?.profile || result };
   },
   async updateProfile(payload) {
-    if (apiConfig.useMockApi) {
-      await delay(350);
-      const savedUser = sessionStorage.getItem('yoga-yen-demo-profile');
-      const user = { ...mockUser, ...(savedUser ? JSON.parse(savedUser) : {}), ...payload };
-      sessionStorage.setItem('yoga-yen-demo-profile', JSON.stringify(user));
-      return { user, demo: true };
+    if (import.meta.env.DEV && isPreviewMode()) {
+      const user = { ...getPreviewProfile(), ...payload, name: payload.full_name || payload.name };
+      updatePreviewProfile(user);
+      return { user };
     }
     const response = await apiRequest('/api/profile', {
       method: 'PUT',
       body: JSON.stringify(payload),
     });
     const result = await response.json();
-    return { user: result?.user || result?.profile || result, demo: false };
+    return { user: result?.user || result?.profile || result };
   },
 };

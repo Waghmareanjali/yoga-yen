@@ -1,15 +1,4 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-const configuredMockMode = import.meta.env.VITE_USE_MOCK_API;
-const UI_ONLY_MODE = import.meta.env.VITE_UI_ONLY_MODE !== 'false';
-const USE_MOCK_API = UI_ONLY_MODE
-  || configuredMockMode === 'true'
-  || (configuredMockMode === undefined && import.meta.env.PROD);
-
-export const apiConfig = {
-  baseUrl: API_BASE_URL,
-  uiOnlyMode: UI_ONLY_MODE,
-  useMockApi: USE_MOCK_API,
-};
 
 export class ApiError extends Error {
   constructor(message, { status = 0, code = 'request_failed' } = {}) {
@@ -34,7 +23,7 @@ function getNetworkError(error, timeoutMessage = 'The request timed out. Please 
     return new ApiError(timeoutMessage, { code: 'timeout' });
   }
   return new ApiError(
-    'Unable to connect to Yoga Yen. Please check your internet connection and try again.',
+    'Unable to reach the Yoga Yen server. Make sure the backend is running, then try again.',
     { code: 'network_error' },
   );
 }

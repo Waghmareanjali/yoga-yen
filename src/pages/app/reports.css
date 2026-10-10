@@ -24,9 +24,24 @@
 .report-empty svg { color: var(--secondary); }
 .report-empty strong { color: var(--text-primary); font-size: 12px; }
 .report-empty span { font-size: 10px; }
+.report-goals { display: grid; gap: 15px; padding: 19px; }
+.report-goals-heading, .report-missed-list > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.report-goals-heading h2 { margin: 0 0 4px; font-size: 15px; }
+.report-goals-heading p { margin: 0; font-size: 10px; }
+.report-goals-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.report-goals-stats > div { display: grid; gap: 4px; padding: 11px; border-radius: 10px; background: var(--surface-alt); }
+.report-goals-stats small { color: var(--text-secondary); font-size: 9px; }
+.report-goals-stats strong { font-size: 18px; }
+.report-missed-list { display: grid; gap: 8px; }
+.report-missed-list h3 { margin: 0; font-size: 11px; }
+.report-missed-list > div { padding: 9px 0; border-top: 1px solid var(--border); }
+.report-missed-list span { display: grid; gap: 3px; }
+.report-missed-list strong { font-size: 10px; }
+.report-missed-list small, .report-goals-empty { margin: 0; color: var(--text-secondary); font-size: 9px; }
+.report-missed-list .btn { padding: 6px 9px; font-size: 10px; }
 .report-skeleton { height: 125px; display: grid; align-content: space-between; padding: 14px; }
 .report-skeleton div { height: 18px; border-radius: 7px; background: var(--surface-alt); animation: report-pulse 1.1s ease-in-out infinite alternate; }
 .report-skeleton div:last-child { width: 55%; height: 28px; }
 @keyframes report-pulse { to { opacity: .4; } }
 @media (max-width: 850px) { .reports-stats { grid-template-columns: repeat(2,minmax(0,1fr)); } .reports-grid { grid-template-columns: 1fr; } }
-@media (max-width: 560px) { .reports-heading { align-items: stretch; flex-direction: column; } .reports-heading button { justify-content: center; } .reports-stats { gap: 9px; } .report-stat { padding: 12px; } .report-guidance { align-items: flex-start; flex-direction: column; } }
+@media (max-width: 560px) { .reports-heading { align-items: stretch; flex-direction: column; } .reports-heading button { justify-content: center; } .reports-stats { gap: 9px; } .report-stat { padding: 12px; } .report-guidance { align-items: flex-start; flex-direction: column; } .report-goals-stats { grid-template-columns: repeat(2,minmax(0,1fr)); } }

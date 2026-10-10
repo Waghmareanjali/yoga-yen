@@ -13,12 +13,36 @@
 .camera-permission-card h2 { font-size: 20px; }
 .camera-permission-card p { margin: 0 0 18px; font-size: 12px; }
 .monitor-control-bar { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 16px; }
+.monitor-countdown-ring { --capture-progress: 0%; width: 58px; height: 58px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 50%; background: conic-gradient(var(--primary) var(--capture-progress), var(--surface-alt) 0); position: relative; font-size: 10px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.monitor-countdown-ring::before { position: absolute; content: ''; inset: 5px; border-radius: 50%; background: var(--surface); }
+.monitor-countdown-ring > span { z-index: 1; }
+.monitor-capture-settings { padding: 12px 15px; }
+.monitor-capture-settings summary { display: flex; justify-content: space-between; gap: 10px; color: var(--text-primary); cursor: pointer; list-style: none; }
+.monitor-capture-settings summary::-webkit-details-marker { display: none; }
+.monitor-capture-settings summary strong { font-size: 12px; }
+.monitor-capture-settings summary span { color: var(--text-secondary); font-size: 10px; }
+.capture-settings-content { display: grid; gap: 14px; padding-top: 15px; }
+.monitor-extend-actions { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; color: var(--text-secondary); font-size: 10px; }
+.monitor-extend-actions span { margin-right: auto; }
+.monitor-extend-actions .btn { min-height: 30px; padding: 5px 8px; font-size: 10px; }
+.monitor-calibration-ring { background: conic-gradient(var(--primary) var(--calibration-progress, 0%), var(--surface-alt) 0); }
+.monitor-calibration-ring::before { width: 33px; height: 33px; border-radius: 50%; background: var(--surface); content: ''; }
+.monitor-calibration-ring > * { z-index: 1; }
+.monitor-summary-modal { position: relative; }
+.monitor-summary-close { position: absolute; top: 11px; right: 11px; width: 32px; height: 32px; display: grid; place-items: center; border: 0; border-radius: 9px; background: var(--surface-alt); color: var(--text-primary); cursor: pointer; }
+.monitor-summary-modal dl { display: grid; gap: 0; margin: 12px 0 18px; text-align: left; }
+.monitor-summary-modal dl div { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 11px; }
+.monitor-summary-modal dt { color: var(--text-secondary); }
+.monitor-summary-modal dd { margin: 0; max-width: 60%; font-weight: 700; text-align: right; }
 .monitor-session-time { display: grid; grid-template-columns: 20px auto; align-items: center; column-gap: 7px; color: var(--primary); font-weight: 800; font-variant-numeric: tabular-nums; }
 .monitor-session-time svg { grid-row: span 2; }
 .monitor-session-time small { color: var(--text-secondary); font-size: 10px; font-weight: 500; }
 .monitor-controls { display: flex; gap: 8px; flex-wrap: wrap; }
 .monitor-controls .btn, .monitor-modal-actions .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
 .monitor-video-status { position: absolute; top: 14px; left: 14px; z-index: 2; display: inline-flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 999px; background: rgba(15,26,21,.74); color: #fff; font-size: 11px; font-weight: 700; backdrop-filter: blur(8px); }
+.monitor-video-recording { display: inline-flex; align-items: center; gap: 4px; margin-left: 5px; color: #ffb3ae; }
+.monitor-upload-actions { display: flex; gap: 7px; flex-wrap: wrap; margin-left: auto; }
+.monitor-upload-actions .btn { min-height: 30px; padding: 5px 8px; font-size: 10px; }
 .monitor-status-live, .monitor-status-paused { width: 8px; height: 8px; border-radius: 50%; background: #56c27d; }
 .monitor-status-paused { background: var(--warning); }
 .monitor-privacy-note { display: flex; align-items: flex-start; gap: 9px; padding: 12px 14px; border: 1px solid rgba(46,139,87,.15); border-radius: 12px; background: rgba(46,139,87,.055); color: #356147; font-size: 11px; line-height: 1.55; }
@@ -67,6 +91,7 @@
   .monitor-insights { grid-template-columns: 1fr; }
   .monitor-video-frame { min-height: 250px; aspect-ratio: 4 / 3; }
   .monitor-control-bar { align-items: flex-start; flex-direction: column; }
+  .monitor-countdown-ring { align-self: center; }
   .monitor-controls { width: 100%; }
   .monitor-controls .btn { flex: 1; padding: 10px 12px; }
   .camera-permission-card { padding: 21px 16px; }

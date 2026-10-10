@@ -5,9 +5,8 @@ import { Link } from 'react-router-dom';
 import KpiGrid from '../../components/dashboard/KpiGrid';
 import QuickActions from '../../components/dashboard/QuickActions';
 import TrendChart from '../../components/analytics/TrendChart';
-import RiskDistribution from '../../components/analytics/RiskDistribution';
 import AuthAlert from '../../components/auth/AuthAlert';
-import { apiConfig } from '../../api/client';
+import TodaysGoals from '../../components/dashboard/TodaysGoals';
 import { postureApi } from '../../api/postureApi';
 import { recommendationApi } from '../../api/recommendationApi';
 import { useAuth } from '../../context/AuthContext';
@@ -15,7 +14,7 @@ import { useAuth } from '../../context/AuthContext';
 export default function Dashboard() {
   const { user } = useAuth();
   const [current, setCurrent] = useState(null);
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState(null);
   const [trends, setTrends] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
   const [errors, setErrors] = useState([]);
@@ -50,18 +49,17 @@ export default function Dashboard() {
       {errors.map((message) => <AuthAlert key={message}>{message}</AuthAlert>)}
       <div className="page-header">
         <div>
-          <div className={`badge ${apiConfig.useMockApi ? 'info' : 'success'}`}>{apiConfig.useMockApi ? 'Demo Data' : 'Wellness indicator'}</div>
           <h1>Welcome, {firstName}</h1>
         </div>
         <Link to="/live-monitor" className="btn primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>Start monitoring <ArrowRight size={16} /></Link>
       </div>
 
       <KpiGrid current={current} history={history} />
+      <TodaysGoals />
       <QuickActions />
 
-      <div className="grid grid-2">
+      <div className="grid grid-1">
         <TrendChart data={trends} />
-        {apiConfig.useMockApi && <RiskDistribution />}
       </div>
 
       <div className="card" style={{ padding: 22 }}>

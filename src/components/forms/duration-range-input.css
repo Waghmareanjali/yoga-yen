@@ -1,0 +1,18 @@
+.duration-range-field { min-width: 0; display: grid; gap: 8px; margin: 0; padding: 0; border: 0; }
+.duration-range-field legend { padding: 0; color: var(--text-primary); font-size: 11px; font-weight: 700; }
+.duration-range-values { display: flex; align-items: center; gap: 12px; }
+.duration-range-values input[type='range'] { width: 100%; min-width: 0; height: 6px; appearance: none; border-radius: 99px; background: linear-gradient(to right, var(--primary) var(--range-fill), var(--border) var(--range-fill)); cursor: pointer; }
+.duration-range-values input[type='range']::-webkit-slider-thumb { width: 18px; height: 18px; appearance: none; border: 2px solid var(--surface); border-radius: 50%; background: var(--primary); box-shadow: 0 0 0 1px var(--primary); transition: transform .15s ease; }
+.duration-range-values input[type='range']::-moz-range-thumb { width: 15px; height: 15px; border: 2px solid var(--surface); border-radius: 50%; background: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
+.duration-range-values input[type='range']:hover::-webkit-slider-thumb { transform: scale(1.12); }
+.duration-number-label { display: inline-flex; align-items: center; gap: 5px; flex: 0 0 auto; color: var(--text-secondary); font-size: 10px; }
+.duration-number-label input { width: 76px; min-height: 35px; padding: 6px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text-primary); }
+.duration-live-label { color: var(--primary); font-size: 10px; font-weight: 700; }
+.duration-helper, .duration-error { color: var(--text-secondary); font-size: 9px; }
+.duration-error { color: var(--danger); }
+.duration-presets { display: flex; gap: 5px; flex-wrap: wrap; }
+.duration-presets button { min-width: 38px; padding: 5px 7px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text-secondary); font-size: 9px; cursor: pointer; }
+.duration-presets button[aria-pressed='true'] { border-color: var(--primary); background: var(--secondary-light); color: var(--primary); }
+.duration-range-field :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.duration-range-field:disabled { opacity: .55; }
+@media (prefers-reduced-motion: reduce) { .duration-range-values input[type='range']::-webkit-slider-thumb { transition: none; } }

@@ -1,9 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { CalendarDays, GitCompareArrows } from 'lucide-react';
 import { postureApi } from '../../api/postureApi';
-import { apiConfig } from '../../api/client';
 import TrendChart from '../../components/analytics/TrendChart';
-import RiskDistribution from '../../components/analytics/RiskDistribution';
 import AuthAlert from '../../components/auth/AuthAlert';
 import './history.css';
 
@@ -77,7 +75,6 @@ export default function History() {
     <div className="history-page">
       <div className="page-header">
         <div><h1>History &amp; Trends</h1><p>Review your posture and ergonomic wellness patterns over time.</p></div>
-        {apiConfig.useMockApi && <span className="badge info">Demo Data</span>}
       </div>
       {error && <AuthAlert>{error}</AuthAlert>}
 
@@ -101,9 +98,8 @@ export default function History() {
         <div className="history-skeletons"><div className="skeleton" /><div className="skeleton" /><div className="skeleton" /></div>
       ) : (
         <>
-          <div className={`history-chart-grid ${apiConfig.useMockApi ? '' : 'single-chart'}`}>
+          <div className="history-chart-grid single-chart">
             <TrendChart data={trends} />
-            {apiConfig.useMockApi && <RiskDistribution />}
           </div>
           {compare && (
             <section className="card history-comparison">
@@ -131,7 +127,7 @@ export default function History() {
               <div className="history-empty"><CalendarDays size={26} /><strong>No posture data for this period yet.</strong><span>Start your first monitoring session to build your history.</span></div>
             )}
           </section>
-          <p className="history-note">Wellness thresholds are tunable, not medical thresholds. Charts and records in Demo mode are illustrative preview data.</p>
+          <p className="history-note">Wellness thresholds are tunable, not medical thresholds. History appears after the connected service records monitoring sessions.</p>
         </>
       )}
     </div>

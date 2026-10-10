@@ -1,0 +1,10 @@
+export const MIN_CAPTURE_SECONDS = 5;
+export const MAX_CAPTURE_SECONDS = 3600;
+export const DEFAULT_CAPTURE_SECONDS = 60;
+export const CALIBRATION_MIN = 5;
+export const CALIBRATION_MAX = 60;
+export const CALIBRATION_DEFAULT = 10;
+export const SAMPLING_INTERVAL_MIN = 1;
+export const SAMPLING_INTERVAL_MAX = 30;
+export const SAMPLING_INTERVAL_DEFAULT = 2;
+export const PRESETS = [10, 30, 60, 120, 300, 600];

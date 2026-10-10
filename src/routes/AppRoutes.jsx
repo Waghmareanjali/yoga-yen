@@ -1,6 +1,7 @@
 import { Suspense, lazy } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 const PublicLayout = lazy(() => import('../pages/public/PublicLayout'));
 const Home = lazy(() => import('../pages/public/Home'));
@@ -12,6 +13,8 @@ const Contact = lazy(() => import('../pages/public/Contact'));
 const Terms = lazy(() => import('../pages/public/Terms'));
 const Login = lazy(() => import('../pages/auth/Login'));
 const Register = lazy(() => import('../pages/auth/Register'));
+const ForgotPassword = lazy(() => import('../pages/auth/ForgotPassword'));
+const ResetPassword = lazy(() => import('../pages/auth/ResetPassword'));
 const AppLayout = lazy(() => import('../pages/app/AppLayout'));
 const Dashboard = lazy(() => import('../pages/app/Dashboard'));
 const LiveMonitor = lazy(() => import('../pages/app/LiveMonitor'));
@@ -33,6 +36,21 @@ function ScrollToTop() {
   return null;
 }
 
+function RequireAuth() {
+  const { isAuthenticated, loading } = useAuth();
+  const location = useLocation();
+  if (loading) return <div className="page-shell"><div className="container section"><div className="skeleton" style={{ height: 420 }} /></div></div>;
+  return isAuthenticated
+    ? <Outlet />
+    : <Navigate to="/login" replace state={{ from: location }} />;
+}
+
+function GuestOnly() {
+  const { isAuthenticated, loading } = useAuth();
+  if (loading) return <div className="page-shell"><div className="container section"><div className="skeleton" style={{ height: 420 }} /></div></div>;
+  return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Outlet />;
+}
+
 export default function AppRoutes() {
   return (
     <Suspense fallback={<div className="page-shell"><div className="container section"><div className="skeleton" style={{ height: 420 }} /></div></div>}>
@@ -48,23 +66,27 @@ export default function AppRoutes() {
           <Route path="terms" element={<Terms />} />
         </Route>
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/reset-password" element={<Navigate to="/dashboard" replace />} />
+        <Route element={<GuestOnly />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+        </Route>
 
-        <Route path="/" element={<AppLayout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="live-monitor" element={<LiveMonitor />} />
-          <Route path="posture-analysis" element={<PostureAnalysis />} />
-          <Route path="yoga" element={<Yoga />} />
-          <Route path="breaks" element={<BreakReminders />} />
-          <Route path="break-reminders" element={<BreakReminders />} />
-          <Route path="history" element={<History />} />
-          <Route path="reports" element={<Reports />} />
-          <Route path="achievements" element={<Achievements />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="settings" element={<Settings />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/" element={<AppLayout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="live-monitor" element={<LiveMonitor />} />
+            <Route path="posture-analysis" element={<PostureAnalysis />} />
+            <Route path="yoga" element={<Yoga />} />
+            <Route path="breaks" element={<BreakReminders />} />
+            <Route path="break-reminders" element={<BreakReminders />} />
+            <Route path="history" element={<History />} />
+            <Route path="reports" element={<Reports />} />
+            <Route path="achievements" element={<Achievements />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
         </Route>
 
         <Route path="*" element={<NotFound />} />

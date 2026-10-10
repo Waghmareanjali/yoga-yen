@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowLeft, Leaf, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { images } from '../../data/images';
 import './auth.css';
@@ -17,8 +17,7 @@ export default function AuthLayout({ children, mode = 'login' }) {
         transition={{ duration: reducedMotion ? 0 : 0.55, ease: 'easeOut' }}
       >
         <Link to="/" className="auth-brand" aria-label="Yoga Yen home">
-          <span className="auth-brand-mark"><Leaf size={19} strokeWidth={2.2} /></span>
-          <span>Yoga Yen</span>
+          <img className="auth-brand-image" src="/yoga-yen-logo.png" alt="Yoga Yen" />
         </Link>
         <div className="auth-visual-copy">
           <span className="auth-kicker"><span /> Posture • Movement • Well-being</span>
@@ -37,9 +36,8 @@ export default function AuthLayout({ children, mode = 'login' }) {
 
       <section className={`auth-form-panel ${isRegister ? 'auth-form-panel-register' : ''}`}>
         <div className="auth-mobile-brand">
-          <Link to="/" className="auth-brand">
-            <span className="auth-brand-mark"><Leaf size={19} strokeWidth={2.2} /></span>
-            <span>Yoga Yen</span>
+          <Link to="/" className="auth-brand" aria-label="Yoga Yen home">
+            <img className="auth-brand-image" src="/yoga-yen-logo.png" alt="Yoga Yen" />
           </Link>
           <span className="auth-mobile-tagline">Sit Better. Move Better. Live Better.</span>
         </div>

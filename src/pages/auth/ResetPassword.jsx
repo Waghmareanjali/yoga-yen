@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { ArrowRight, KeyRound, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { apiConfig } from '../../api/client';
 import { resetUserPassword } from '../../api/authApi';
 import AuthAlert from '../../components/auth/AuthAlert';
 import AuthField from '../../components/auth/AuthField';
@@ -24,7 +23,7 @@ export default function ResetPassword() {
     setError('');
     setSuccess('');
     const resetToken = searchParams.get('token');
-    if (!apiConfig.useMockApi && !resetToken) {
+    if (!resetToken) {
       setError('This reset link is incomplete. Please request a new password reset link.');
       return;
     }
@@ -40,9 +39,7 @@ export default function ResetPassword() {
     setLoading(true);
     try {
       await resetUserPassword({ token: resetToken, password });
-      setSuccess(apiConfig.useMockApi
-        ? 'Preview only: password reset is not connected to a real account in Demo mode.'
-        : 'Password updated. You can now sign in.');
+      setSuccess('Password updated. You can now sign in.');
     } catch (requestError) {
       setError(requestError?.message || 'Unable to reset your password right now.');
     } finally {
@@ -57,7 +54,6 @@ export default function ResetPassword() {
         <h1>Reset Password</h1>
         <p>Choose a new password to get back to your wellness journey.</p>
       </div>
-      {apiConfig.useMockApi && <div className="auth-demo-note"><KeyRound size={15} /><span>Demo mode is active. Your account password will not be changed.</span></div>}
       <AuthAlert>{error}</AuthAlert>
       <AuthAlert type="success">{success}</AuthAlert>
       <form className="auth-form" onSubmit={handleSubmit} noValidate>
